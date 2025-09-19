@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Planificación de Procesos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Simulador de Planificación de Procesos</h1>
+            <p>Cada unidad de tiempo = 5 segundos</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="process-creation">
+                    <h2>Creación de Procesos</h2>
+                    <div class="form-group">
+                        <label for="processName">Nombre del proceso:</label>
+                        <input type="text" id="processName" placeholder="Proceso 1">
+                    </div>
+                    <div class="form-group">
+                        <label for="cpuTime">Tiempo en CPU (unidades):</label>
+                        <input type="number" id="cpuTime" min="1" value="3">
+                    </div>
+                    <div class="form-group">
+                        <label for="arrivalTime">Instante de llegada (unidad):</label>
+                        <input type="number" id="arrivalTime" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantumTime">Quantum (para Round Robin):</label>
+                        <input type="number" id="quantumTime" min="1" value="2">
+                    </div>
+                    <button id="addProcess">Agregar Proceso</button>
+                    <button id="generateRandom">Generar Procesos Aleatorios</button>
+                </div>
+
+                <div class="algorithm-selection">
+                    <h2>Selección de Algoritmo</h2>
+                    <select id="algorithm">
+                        <option value="fcfs">FCFS (First-Come, First-Served)</option>
+                        <option value="sjf">SJF (Shortest Job First)</option>
+                        <option value="srtf">SRTF (Shortest Remaining Time First)</option>
+                        <option value="rr">Round Robin</option>
+                    </select>
+                    <button id="startSimulation">Iniciar Simulación</button>
+                    <button id="resetSimulation">Reiniciar</button>
+                </div>
+
+                <div class="process-list">
+                    <h2>Procesos Creados</h2>
+                    <div id="processTableContainer">
+                        <table id="processTable">
+                            <thead>
+                                <tr>
+                                    <th>PID</th>
+                                    <th>Nombre</th>
+                                    <th>Tiempo CPU</th>
+                                    <th>Llegada</th>
+                                    <th>Quantum</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="processTableBody">
+                                <!-- Los procesos se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="simulation-view">
+                    <h2>Simulación de Ejecución</h2>
+                    <div class="time-control">
+                        <span id="currentTime">Tiempo actual: 0 unidades</span>
+                        <button id="pauseSimulation" disabled>Pausar</button>
+                        <button id="resumeSimulation" disabled>Reanudar</button>
+                    </div>
+                    <div class="cpu-display">
+                        <div class="cpu-label">CPU</div>
+                        <div id="cpuProcess">Ningún proceso en ejecución</div>
+                    </div>
+                    <div class="queues">
+                        <div class="queue">
+                            <h3>Cola de Listos</h3>
+                            <div id="readyQueue" class="queue-content"></div>
+                        </div>
+                        <div class="queue">
+                            <h3>Procesos Finalizados</h3>
+                            <div id="finishedQueue" class="queue-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="history">
+                    <h2>Historial de Procesos</h2>
+                    <div id="historyLog" class="history-log">
+                        <!-- El historial se insertará aquí dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="process.js"></script>
+    <script src="scheduler.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
