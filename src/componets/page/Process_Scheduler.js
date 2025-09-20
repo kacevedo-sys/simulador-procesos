@@ -362,7 +362,7 @@ const scheduler = new ProcessScheduler();
 
 // Configurar event listeners cuando el DOM esté cargado
 document.addEventListener('DOMContentLoaded', function () {
-    // Referencias a elementos del DOM
+    // Referencias a elementos 
     const addProcessBtn = document.getElementById('addProcess');
     const generateRandomBtn = document.getElementById('generateRandom');
     const startSimulationBtn = document.getElementById('startSimulation');
