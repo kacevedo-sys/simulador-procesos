@@ -355,3 +355,113 @@ class ProcessScheduler {
         }
     }
 }
+
+
+// Inicializar el planificador
+const scheduler = new ProcessScheduler();
+
+// Configurar event listeners cuando el DOM esté cargado
+document.addEventListener('DOMContentLoaded', function () {
+    // Referencias a elementos del DOM
+    const addProcessBtn = document.getElementById('addProcess');
+    const generateRandomBtn = document.getElementById('generateRandom');
+    const startSimulationBtn = document.getElementById('startSimulation');
+    const resetSimulationBtn = document.getElementById('resetSimulation');
+    const pauseSimulationBtn = document.getElementById('pauseSimulation');
+    const resumeSimulationBtn = document.getElementById('resumeSimulation');
+    const algorithmSelect = document.getElementById('algorithm');
+    const processTableBody = document.getElementById('processTableBody');
+
+    // Función para actualizar la tabla de procesos
+    function updateProcessTable() {
+        processTableBody.innerHTML = '';
+        scheduler.processes.forEach(process => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${process.pid}</td>
+                <td>${process.name}</td>
+                <td>${process.cpuTime}</td>
+                <td>${process.arrivalTime}</td>
+                <td>${process.quantum}</td>
+                <td><button class="delete-btn" data-pid="${process.pid}">Eliminar</button></td>
+            `;
+            processTableBody.appendChild(row);
+        });
+
+        // Agregar event listeners a los botones de eliminar
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const pid = parseInt(this.getAttribute('data-pid'));
+                scheduler.removeProcess(pid);
+                updateProcessTable();
+            });
+        });
+    }
+
+    // Event listener para agregar proceso
+    addProcessBtn.addEventListener('click', function () {
+        const name = document.getElementById('processName').value || `Proceso ${scheduler.nextPid}`;
+        const cpuTime = document.getElementById('cpuTime').value;
+        const arrivalTime = document.getElementById('arrivalTime').value;
+        const quantum = document.getElementById('quantumTime').value;
+
+        if (cpuTime && arrivalTime >= 0 && quantum) {
+            scheduler.addProcess(name, cpuTime, arrivalTime, quantum);
+            updateProcessTable();
+
+            // Limpiar campos
+            document.getElementById('processName').value = '';
+            document.getElementById('cpuTime').value = '3';
+            document.getElementById('arrivalTime').value = '0';
+        } else {
+            alert('Por favor, complete todos los campos correctamente.');
+        }
+    });
+
+    // Event listener para generar procesos aleatorios
+    generateRandomBtn.addEventListener('click', function () {
+        scheduler.generateRandomProcesses(5);
+        updateProcessTable();
+    });
+
+    // Event listener para iniciar simulación
+    startSimulationBtn.addEventListener('click', function () {
+        const algorithm = algorithmSelect.value;
+        scheduler.startSimulation(algorithm);
+
+        // Habilitar/deshabilitar botones
+        pauseSimulationBtn.disabled = false;
+        resumeSimulationBtn.disabled = true;
+        startSimulationBtn.disabled = true;
+        resetSimulationBtn.disabled = false;
+    });
+
+    // Event listener para pausar simulación
+    pauseSimulationBtn.addEventListener('click', function () {
+        scheduler.pauseSimulation();
+        pauseSimulationBtn.disabled = true;
+        resumeSimulationBtn.disabled = false;
+    });
+
+    // Event listener para reanudar simulación
+    resumeSimulationBtn.addEventListener('click', function () {
+        scheduler.resumeSimulation();
+        pauseSimulationBtn.disabled = false;
+        resumeSimulationBtn.disabled = true;
+    });
+
+    // Event listener para reiniciar simulación
+    resetSimulationBtn.addEventListener('click', function () {
+        scheduler.resetSimulation();
+        updateProcessTable();
+
+        // Habilitar/deshabilitar botones
+        pauseSimulationBtn.disabled = true;
+        resumeSimulationBtn.disabled = true;
+        startSimulationBtn.disabled = false;
+        resetSimulationBtn.disabled = false;
+    });
+
+    // Inicializar la tabla de procesos
+    updateProcessTable();
+});
