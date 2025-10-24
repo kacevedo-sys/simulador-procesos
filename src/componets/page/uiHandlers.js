@@ -24,4 +24,4 @@ export function refreshProcTable(){ const tb = procTableBody(); if(!tb) return; 
 const _origRefresh = refreshProcTable;
 export function refreshProcTableWithLog(){ console.log('[ui] refreshProcTable — current processes:', window.SIM_PROCESSES); _origRefresh(); }
 
-export function paintGantt(timeline){ renderEmptyGantt(); const rows = ganttGrid().querySelectorAll('.row'); for(let t=0;t<Math.min(timeline.length, MAX_TIME); t++){ const p = timeline[t]; if(!p) continue; const idx = PROCESS_NAMES.indexOf(p); if(idx<0) continue; const row = rows[idx]; const cells = row.querySelectorAll('.cell'); const cell = cells[t]; cell.className = 'cell ' + colors[p]; cell.textContent = p; } 
+export function paintGantt(timeline){ renderEmptyGantt(); const rows = ganttGrid().querySelectorAll('.row'); for(let t=0;t<Math.min(timeline.length, MAX_TIME); t++){ const p = timeline[t]; if(!p) continue; const idx = PROCESS_NAMES.indexOf(p); if(idx<0) continue; const row = rows[idx]; const cells = row.querySelectorAll('.cell'); const cell = cells[t]; cell.className = 'cell ' + colors[p]; cell.textContent = p; }} 
